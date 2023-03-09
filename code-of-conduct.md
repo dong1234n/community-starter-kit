@@ -24,12 +24,10 @@ sleft = flipud(conj(sz(2:n/2+1)));
 sright = flipud(sz(end-n/2:end-1));
 x = [sleft; s ; sright];
 clear xleft xright;
-
 t = -0.5:1/n:0.5-1/n;t=t';
 g =  1/sigma*exp(-pi/sigma^2*t.^2);
 gp = -2*pi/sigma^2*t .* g; % g'
 gpp = (-2*pi/sigma^2+4*pi^2/sigma^4*t.^2) .* g; % g''
-
 SST2 = zeros(neta,nb);
 o = zeros(neta,nb);
 tt = zeros(neta,nb);
@@ -37,9 +35,7 @@ oo = zeros(neta,nb);
 vg = zeros(neta,7);
 vgp = zeros(neta,5);
 Y = zeros(neta,4,4);
-
-for b=1:nb
-	
+for b=1:nb	
     for i = 0:7
         tmp = (fft(x(bt(b):bt(b)+n-1).*(t.^i).*g))/n;
         vg(:,i+1) = tmp(ft);
@@ -58,8 +54,7 @@ for b=1:nb
                 Y(:,i,j) = vg(:,1).*vg(:,i+1) - vg(:,j).*vg(:,i-j+2);
             end
         end
-    end  
-    
+    end 
     W2 = 1/2/1i/pi*(vg(:,1).^2+vg(:,1).*vgp(:,2)-vg(:,2).*vgp(:,1));
     o(:,b) = (ft-1)'-real(vgp(:,1)/2/1i/pi./vg(:,1));
     p(:,b) = W2./Y(:,2,2);
